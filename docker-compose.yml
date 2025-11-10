@@ -1,0 +1,40 @@
+version: "3.8"
+
+services:
+  victim:
+    build:
+      context: ./victim
+      dockerfile: Dockerfile
+    container_name: fp_victim
+    volumes:
+      - ./victim/assignments:/home/victim/assignments:rw
+    working_dir: /home/victim/assignments
+    tty: true
+    stdin_open: true
+    restart: "no"
+    networks:
+      - fp_net
+
+  malware:
+    build:
+      context: ./malware
+      dockerfile: Dockerfile
+    container_name: fp_malware
+    depends_on:
+      - victim
+    volumes:
+      - ./victim/assignments:/home/victim/assignments:rw
+    environment:
+      - TARGET_DIR=/home/victim/assignments
+      - RUN_MODE=demo
+    working_dir: /app
+    command: ["python3", "tamper.py"]
+    tty: true
+    stdin_open: true
+    restart: "no"
+    networks:
+      - fp_net
+
+networks:
+  fp_net:
+    driver: bridge
