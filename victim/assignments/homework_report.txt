@@ -1,0 +1,3 @@
+Homework Report – 2025
+This assignment focuses on algorithm complexity and recursion.
+All tests passed during development.
