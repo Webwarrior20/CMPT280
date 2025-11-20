@@ -2,9 +2,7 @@ version: "3.8"
 
 services:
   victim:
-    build:
-      context: ./victim
-      dockerfile: Dockerfile
+    build: ./victim
     container_name: fp_victim
     volumes:
       - ./victim/assignments:/home/victim/assignments:rw
@@ -16,9 +14,7 @@ services:
       - fp_net
 
   malware:
-    build:
-      context: ./malware
-      dockerfile: Dockerfile
+    build: ./malware
     container_name: fp_malware
     depends_on:
       - victim
@@ -26,7 +22,7 @@ services:
       - ./victim/assignments:/home/victim/assignments:rw
     environment:
       - TARGET_DIR=/home/victim/assignments
-      - RUN_MODE=demo
+      - ALLOW_HIDE=no
     working_dir: /app
     command: ["python3", "tamper.py"]
     tty: true
@@ -34,6 +30,7 @@ services:
     restart: "no"
     networks:
       - fp_net
+    user: root
 
 networks:
   fp_net:
