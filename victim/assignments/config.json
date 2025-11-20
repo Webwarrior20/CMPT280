@@ -1,0 +1,9 @@
+{
+  "student": "Example Student",
+  "course": "CMPT280",
+  "assignment": "Final Project",
+  "flags": {
+    "debug": false,
+    "optimize": true
+  }
+}
