@@ -1,0 +1,3 @@
+Reflection:
+The stack exercise helped me understand LIFO logic.
+Need more examples for LinkedList traversal.
