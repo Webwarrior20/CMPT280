@@ -1,0 +1,4 @@
+Code Analysis:
+- C program compiles with gcc
+- Java class runs correctly
+- Need to compare performance differences
