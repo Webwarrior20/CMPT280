@@ -1,0 +1,5 @@
+Assignment Notes
+----------------
+- Need to finish part B
+- Validate user input
+- Add more examples
