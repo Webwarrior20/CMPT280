@@ -1,15 +1,37 @@
 version: "3.8"
 
 services:
-  victim:
+
+  victim1:
     build: ./victim
-    container_name: fp_victim
+    container_name: fp_victim1
     volumes:
-      - ./victim/assignments:/home/victim/assignments:rw
-    working_dir: /home/victim/assignments
+      - /home/seed/Documents/CMPT280/Final_Project/victim1:/data/assignments:rw
+    working_dir: /data/assignments
     tty: true
     stdin_open: true
-    restart: "no"
+    networks:
+      - fp_net
+
+  victim2:
+    build: ./victim
+    container_name: fp_victim2
+    volumes:
+      - /home/seed/Documents/CMPT280/Final_Project/victim2:/data/assignments:rw
+    working_dir: /data/assignments
+    tty: true
+    stdin_open: true
+    networks:
+      - fp_net
+
+  victim3:
+    build: ./victim
+    container_name: fp_victim3
+    volumes:
+      - /home/seed/Documents/CMPT280/Final_Project/victim3:/data/assignments:rw
+    working_dir: /data/assignments
+    tty: true
+    stdin_open: true
     networks:
       - fp_net
 
@@ -17,20 +39,31 @@ services:
     build: ./malware
     container_name: fp_malware
     depends_on:
-      - victim
+      - victim1
+      - victim2
+      - victim3
+
     volumes:
-      - ./victim/assignments:/home/victim/assignments:rw
+      # victims mounted dynamically
+      - /home/seed/Documents/CMPT280/Final_Project/victim1:/data/victim1:rw
+      - /home/seed/Documents/CMPT280/Final_Project/victim2:/data/victim2:rw
+      - /home/seed/Documents/CMPT280/Final_Project/victim3:/data/victim3:rw
+
+      # shared command and status folder
+      - ./commands:/commands:rw
+
     environment:
-      - TARGET_DIR=/home/victim/assignments
+      - VICTIM_DIRS=/data/victim1,/data/victim2,/data/victim3
+      - COMMAND_DIR=/commands
       - ALLOW_HIDE=no
+
     working_dir: /app
     command: ["python3", "tamper.py"]
     tty: true
     stdin_open: true
-    restart: "no"
+    user: root
     networks:
       - fp_net
-    user: root
 
 networks:
   fp_net:
